@@ -1,0 +1,229 @@
+openapi: 3.0.0
+info:
+  version: 0.1.0
+  title: API платежной системы
+servers:
+  - url: http://example.com/api/v1
+
+paths:
+
+  /services:
+    get:
+      tags:
+        - services
+      summary: Получение списка услуг
+      description: Список всех услуг для админки. Если не указаны параметры пагинации, отдается весь список.
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServicesResponse'
+
+    post:
+      tags:
+        - services
+      summary: Создание услуги
+      description: Добавление новой услуги и её стоимости в базу.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceBody'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+
+  /services/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ServiceID'
+
+    patch:
+      tags:
+        - services
+      summary: Изменение услуги
+      description: Изменение уже существующей услуги
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceBody'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+
+  /payments:
+    get:
+      tags:
+        - payments
+      summary: Получение списка платежей
+      description: Список всех платежей для админки. Если не указаны параметры пагинации, отдается весь список.
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentsResponse'
+
+    post:
+      tags:
+        - payments
+      summary: Создание платежа
+      description: Добавление новой платежа в базу.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentBody'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+
+
+  /payments/{id}:
+    parameters:
+      - $ref: '#/components/parameters/PaymentID'
+
+    patch:
+      tags:
+        - payments
+      summary: Изменение платежа
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentBody'
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+
+
+components:
+  schemas:
+    ServiceBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+    ServicesResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        desc:
+          type: string
+        creation_date:
+          type: string
+        price:
+          type: integer
+
+    PaymentsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        desc:
+          type: string
+        creation_date:
+          type: string
+        price:
+          type: integer
+        status:
+          type: string
+        user:
+          type: string
+    PaymentBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+        user:
+          type: string
+
+  parameters:
+    ServiceID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    PaymentID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
