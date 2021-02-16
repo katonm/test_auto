@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+service ParenthesesService {
+  rpc Fix(FixRequest) returns (FixResponse) {}
+  rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+}
+
+message FixRequest {
+  string strIn = 1;
+}
+
+message FixResponse {
+  string strOut = 1;
+}
+
+message ValidateRequest {
+  string strIn = 1;
+}
+
+message ValidateResponse {
+  string result = 1;
+}

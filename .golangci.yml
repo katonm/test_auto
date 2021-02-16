@@ -1,0 +1,37 @@
+run:
+  deadline: 1m
+  issues-exit-code: 1
+  skip-files:
+    - ".*_test\\.go"
+
+output:
+  format: colored-line-number
+
+linters-settings:
+  funlen:
+    lines: 300
+    statements: 200
+  gocognit:
+    min-complexity: 150
+  gocritic:
+    disabled-checks:
+      - ifElseChain
+      - elseif
+
+linters:
+  enable-all: true
+  disable:
+    - goerr113
+    - gci
+    - unused
+    - goimports
+    - gomnd
+    - gochecknoinits
+    - gosec
+    - wsl
+    - lll
+    - maligned
+    - dupl
+    - errcheck
+    - exhaustive
+    - gofumpt
